@@ -1,0 +1,19 @@
+image: docker:17.09
+definitions:
+  services:
+    docker: 
+      memory: 7128
+pipelines:
+  default:
+    - step: 
+        name: Deploy to test
+        deployment: test
+        size: 2x
+        script:
+          - pipe: microsoft/azure-static-web-apps-deploy:main
+            variables:
+                APP_LOCATION: '/'
+                API_LOCATION: 'api'
+                OUTPUT_LOCATION: 'build'
+                API_TOKEN: $deployment_token
+                build_timeout_in_minutes: '30'
